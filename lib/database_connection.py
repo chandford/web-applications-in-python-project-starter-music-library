@@ -3,21 +3,15 @@ from flask import g
 from psycopg.rows import dict_row
 
 
-# This class helps us interact with the database.
-# It wraps the underlying psycopg library that we are using.
-
-# If the below seems too complex right now, that's OK.
-# That's why we have provided it!
 class DatabaseConnection:
-    # VVV CHANGE BOTH OF THESE VVV
-    DEV_DATABASE_NAME = "DEFAULT_MAKERS_PROJECT"
-    TEST_DATABASE_NAME = "DEFAULT_MAKERS_PROJECT_TEST"
+    DEV_DATABASE_NAME = "music_library_web"
+    TEST_DATABASE_NAME = "music_library_web_test"
 
     def __init__(self, test_mode=False):
         self.test_mode = test_mode
 
-    # This method connects to PostgreSQL using the psycopg library. We connect
-    # to localhost and select the database name given in argument.
+    # This method connects to PostgreSQL using the psycopg library. 
+    # We connect to localhost and select the database name given in argument.
     def connect(self):
         try:
             self.connection = psycopg.connect(
@@ -68,8 +62,7 @@ class DatabaseConnection:
         else:
             return self.DEV_DATABASE_NAME
 
-# This function integrates with Flask to create one database connection that
-# Flask request can use. To see how to use it, look at example_routes.py
+# This function integrates with Flask to create one database connection that Flask request can use.
 def get_flask_database_connection(app):
     if not hasattr(g, 'flask_database_connection'):
         g.flask_database_connection = DatabaseConnection(
