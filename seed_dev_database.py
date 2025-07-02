@@ -5,5 +5,4 @@ from lib.database_connection import DatabaseConnection
 
 connection = DatabaseConnection(test_mode=False)
 connection.connect()
-# Add your own seed lines below...
-# E.g.connection.seed("seeds/your_seed.sql")
+connection.seed('seeds/music_library.sql') # Added! 
