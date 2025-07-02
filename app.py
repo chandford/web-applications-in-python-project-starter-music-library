@@ -3,10 +3,11 @@ from flask import Flask, request
 from lib.database_connection import get_flask_database_connection
 from lib.album_repository import AlbumRepository
 from lib.album import Album
+from lib.artist_repository import ArtistRepository
 
 app = Flask(__name__) # Create a Flask application instance for managing the entire lifecycle of an HTTP request
-# == New Routes Here ==
 
+# == New Routes Here ==
 
 @app.route('/albums', methods=['POST'])
 def post_album():
@@ -35,6 +36,15 @@ def get_albums():
     repository = AlbumRepository(connection)
     albums = repository.all()
     return "\n".join(f"{album}" for album in albums)
+
+
+
+@app.route('/artists', methods=['GET'])
+def get_artists():
+    connection =  get_flask_database_connection(app)
+    repository = ArtistRepository(connection)
+    artists = repository.all()
+    return "\n".join(f"{artist}" for artist in artists)
 
 
 

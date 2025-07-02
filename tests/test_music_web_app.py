@@ -61,3 +61,24 @@ def test_post_albums_with_no_data_produces_error(db_connection, web_client):
     assert post_response.status_code == 400
     assert post_response.data.decode('utf-8') == "" \
     "You need to submit title, release_year and artist_id"
+
+
+
+    """ 
+    Test-drive a route GET /artists, which returns the list of artists:
+    # Request: GET /artists
+    # Expected response (200 OK):
+    Pixies, ABBA, Taylor Swift, Nina Simone
+    """
+
+def test_get_artists(db_connection, web_client):
+    db_connection.seed("seeds/music_library.sql")
+    get_response = web_client.get('/artists')
+    assert get_response.status_code == 200
+    assert get_response.data.decode('utf-8') == "" \
+        "Artist(1, Pixies, Rock)\n" \
+        "Artist(2, ABBA, Pop)\n" \
+        "Artist(3, Taylor Swift, Pop)\n" \
+        "Artist(4, Nina Simone, Jazz)"
+    
+    
