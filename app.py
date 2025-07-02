@@ -4,6 +4,7 @@ from lib.database_connection import get_flask_database_connection
 from lib.album_repository import AlbumRepository
 from lib.album import Album
 from lib.artist_repository import ArtistRepository
+from lib.artist import Artist
 
 app = Flask(__name__) # Create a Flask application instance for managing the entire lifecycle of an HTTP request
 
@@ -46,7 +47,18 @@ def get_artists():
     artists = repository.all()
     return "\n".join(f"{artist}" for artist in artists)
 
-
+@app.route('/artists', methods=['POST'])
+def post_artists():
+    connection =  get_flask_database_connection(app)
+    repository = ArtistRepository(connection)
+    artist = Artist(
+        None,
+        request.form.get('name'),
+        request.form.get('genre')
+    )
+    print(f"Creating ARTIST: {artist}")
+    repository.create(artist)
+    return "", 200
 
 
 

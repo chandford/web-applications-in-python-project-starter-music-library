@@ -81,4 +81,41 @@ def test_get_artists(db_connection, web_client):
         "Artist(3, Taylor Swift, Pop)\n" \
         "Artist(4, Nina Simone, Jazz)"
     
+    """
+    Test-drive a route POST /artists,
+    which creates a new artist in the database.
+    # Request: POST /artists
+
+    # With body parameters:
+        name=Wild Nothing
+        genre=Indie
+
+    # Expected response (200 OK) (No content)
+    """
+
+def test_post_artists_adds_artist_to_db(db_connection, web_client):
+    db_connection.seed("seeds/music_library.sql")
+    post_response = web_client.post('/artists', data={
+        'name': 'Wild Nothing',
+        'genre': 'Indie'})
+    assert post_response.status_code == 200
+    assert post_response.data.decode('utf-8') == ""
+
+    """
+    # Then subsequent request:
+    GET /artists
+
+    # Expected response (200 OK)
+    Pixies, ABBA, Taylor Swift, Nina Simone, Wild Nothing
+    """
+
+    get_response = web_client.get('/artists')
+    assert get_response.status_code == 200
+    assert get_response.data.decode('utf-8') == "" \
+        "Artist(1, Pixies, Rock)\n" \
+        "Artist(2, ABBA, Pop)\n" \
+        "Artist(3, Taylor Swift, Pop)\n" \
+        "Artist(4, Nina Simone, Jazz)\n" \
+        "Artist(5, Wild Nothing, Indie)"
+    
     

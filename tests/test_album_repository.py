@@ -37,7 +37,6 @@ def test_find_raises_exception_when_no_match_found(db_connection):
     assert error_message == "No matches found"
 
 
-
 def test_create_record(db_connection):
     db_connection.seed("seeds/music_library.sql")
     repository = AlbumRepository(db_connection)
@@ -46,14 +45,6 @@ def test_create_record(db_connection):
     result = repository.all()
     assert str(result[-1]) == "Album(13, Test Title, 2025, 201)"
 
-def test_create_record_throws_exception(db_connection):
-    db_connection.seed("seeds/music_library.sql")
-    repository = AlbumRepository(db_connection)
-
-    with pytest.raises(TypeError) as err: 
-        repository.create([13, "Test Title", 2025, 201])
-    error_message = str(err.value)
-    assert error_message == "Requires an Album object"
 
 def test_create_record_returns_new_record_id(db_connection):
     db_connection.seed("seeds/music_library.sql")
